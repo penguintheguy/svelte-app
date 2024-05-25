@@ -23,7 +23,6 @@
 
 
 <main class="container-fluid">
-<h1 align=center>Copyright © Ayush Gupta { new Date().getFullYear() }</h1>
 	<!-- Bind to addTodoText -->
 	<input bind:value={addTodoText}>
 	<!-- Clicking calls the function -->
