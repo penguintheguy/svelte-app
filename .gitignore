@@ -1,0 +1,4 @@
+.svelte-kit
+node_modules
+bun.lockb
+vite.config.js.timestamp-*
