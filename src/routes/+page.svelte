@@ -1,5 +1,5 @@
 <script>
-	let todos = [];
+	let todos = ["Add Todo"];
 	let addTodoText;
 
 	function addTodo(){
