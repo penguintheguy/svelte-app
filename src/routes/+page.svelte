@@ -1,6 +1,5 @@
 <script>
-        import '@picocss/pico'
-
+	import '@picocss/pico'
 
 	// defining an array (can be empty)
 	let todos = [];
@@ -31,29 +30,35 @@
 
 	// dynamically checks if todos is empty
 	$: if (todos.length == 0) {
-		placeholder = "Add something todo";
+		placeholder = "Add something to do";
 	} else {
 		// Just some fun! LOL
-		placeholder = `What after ${todos[todos.length-1]}`
+		placeholder = `What after '${todos[todos.length-1]}' ?`
 	}
 
 
 	// Saving user's todos into a variable 'data' using localStorage
 	function saveTodo() {
-            if (todos == []) {
-		alert("Empty todo list wouldn't be stored")
-	    } else {	
-	        // since localStorage stores only strings, JSON.stringify converts our array to string by append single quotes around the array
-		localStorage.setItem("data", JSON.stringify(todos)) 
-		alert("Your todos were saved to your device!")
-	    }
-		
+		if (todos.length != 0) {
+			// since localStorage stores only strings, JSON.stringify converts our array to string by append single quotes around the array
+			localStorage.setItem("data", JSON.stringify(todos)) 
+			alert("Your todos were saved to your device!")
+		} else {
+			alert("Empty todos can't be saved!")
+		}
 	}
 
 
 	// remove/deleteing the data
 	function deleteTodos(){
 		localStorage.removeItem("data")
+		alert("Your saved todos were deleted from device!")
+	}
+
+	// remove/deleteing all the data
+	function deleteAllTodos(){
+		localStorage.removeItem("data")
+		todos = []
 		alert("Your saved todos were deleted from device!")
 	}
 
@@ -97,6 +102,13 @@
 	<button class="container-fluid" on:click={deleteTodos}>
 		Delete stored todos
 	</button>
+
+	<br><br>
+	<!-- calls deleteAllTodo function -->
+	<button class="container-fluid" on:click={deleteAllTodos}>
+		Delete all todos
+	</button>
+
 	<br>
 	<br>
 
