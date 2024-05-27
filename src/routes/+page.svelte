@@ -1,4 +1,6 @@
 <script>
+        import '@picocss/pico'
+
 
 	// defining an array (can be empty)
 	let todos = [];
