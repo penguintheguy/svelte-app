@@ -38,9 +38,14 @@
 
 	// Saving user's todos into a variable 'data' using localStorage
 	function saveTodo() {
-		// since localStorage stores only strings, JSON.stringify converts our array to string by append single quotes around the array
+            if (todos == []) {
+		alert("Empty todo list wouldn't be stored")
+	    } else {	
+	        // since localStorage stores only strings, JSON.stringify converts our array to string by append single quotes around the array
 		localStorage.setItem("data", JSON.stringify(todos)) 
 		alert("Your todos were saved to your device!")
+	    }
+		
 	}
 
 
