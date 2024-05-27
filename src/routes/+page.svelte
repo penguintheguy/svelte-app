@@ -105,7 +105,7 @@
 
 	<br><br>
 	<!-- calls deleteAllTodo function -->
-	<button class="container-fluid" on:click={deleteAllTodos}>
+	<button class="container-fluid secondary" on:click={deleteAllTodos}>
 		Delete all todos
 	</button>
 
