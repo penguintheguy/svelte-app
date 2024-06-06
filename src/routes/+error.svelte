@@ -1,15 +1,9 @@
 <script>
-    import '@picocss/pico'
+	import { ClickableTile } from "carbon-components-svelte";
 </script>
 <br>
-<main class="container-fluid">
-    <h1>You knowing entered the wrong path! lel</h1>
-    <a href="/" role="button" class="container-fluid">Go back</a>
+<main>
+    <ClickableTile href="/">
+        <h1>You knowing entered the wrong path! lel</h1>
+    </ClickableTile>
 </main>
-
-<style>
-    main {
-        max-width: 95vw;
-        margin: auto;
-    }
-</style>

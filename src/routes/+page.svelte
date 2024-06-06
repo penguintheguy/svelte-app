@@ -1,128 +1,160 @@
 <script>
-	import '@picocss/pico'
+	let todos = []; // defining an array (can be empty)
+	let addTodoText; //  defining the next input
+	let placeholder; // dynamic placeholder for input
+	let isSaveModalOpen = false; // if saved info dialog is open
+	let isSaveModalWarning = false; // if empty todo tried to save
+	let isTodoTextEmpty = false; // if todo text is empty
+	let isDeleteModalOpen = false; // if todo is deleted
 
-	// defining an array (can be empty)
-	let todos = [];
+	// Components
+	import {
+		Button,
+		Modal,
+		TextInput,
+		ProgressBar,
+	} from "carbon-components-svelte";
+	// Icons
+	import { TaskRemove, RowDelete, Add } from "carbon-icons-svelte";
 
-	//  defining the next input
-	let addTodoText;
-
+	// importing the onMount function to load todos of user
+	import { onMount } from "svelte";
+	onMount(() => {
+		// checks if 'data' i.e. todos exists, then assign
+		if (localStorage.getItem("data") != null) {
+			// JSON.parse converts our todos array (which was stored as an string) back into array
+			todos = JSON.parse(localStorage.getItem("data"));
+		}
+	});
 
 	// Function to add values to 'todos' variable
-	function addTodo(){
+	function addTodo() {
 		// if addTodoText is empty or contains onlywhite space
-		if (addTodoText == undefined || addTodoText.trim() == '') {
-			alert("Todo text can't be empty")
-		} else {	
+		if (addTodoText == undefined || addTodoText.trim() == "") {
+			isTodoTextEmpty = true; // show the popup is addTodoText is empty
+		} else {
 			// main logic: if addTodoText is neither empty nor contains onlywhite space
 			// then add addTodoText to the last of todos array
 			// since last element is always at length-1, append to index = length of array
-			todos[todos.length] = addTodoText; 
+			todos[todos.length] = addTodoText;
 			// change addTodoText to undefined as that user can't populate todos with
 			// same data
-			addTodoText = undefined; 
+			addTodoText = undefined;
 		}
 	}
-
-
-	// dynamic placeholder for input
-	let placeholder;
 
 	// dynamically checks if todos is empty
 	$: if (todos.length == 0) {
 		placeholder = "Add something to do";
 	} else {
 		// Just some fun! LOL
-		placeholder = `What after '${todos[todos.length-1]}' ?`
+		placeholder = `What after '${todos[todos.length - 1]}' ?`;
 	}
-
 
 	// Saving user's todos into a variable 'data' using localStorage
 	function saveTodo() {
 		if (todos.length != 0) {
 			// since localStorage stores only strings, JSON.stringify converts our array to string by append single quotes around the array
-			localStorage.setItem("data", JSON.stringify(todos)) 
-			alert("Your todos were saved to your device!")
+			localStorage.setItem("data", JSON.stringify(todos));
+			isSaveModalOpen = true; // show popup if todos is saved
 		} else {
-			alert("Empty todos can't be saved!")
+			isSaveModalWarning = true; // show popup if empty todos is tried to be saved
 		}
-	}
-
-
-	// remove/deleteing the data
-	function deleteTodos(){
-		localStorage.removeItem("data")
-		alert("Your saved todos were deleted from device!")
 	}
 
 	// remove/deleteing all the data
-	function deleteAllTodos(){
-		localStorage.removeItem("data")
-		todos = []
-		alert("Your saved todos were deleted from device!")
+	function deleteAllTodos() {
+		localStorage.removeItem("data");
+		todos = [];
+		isDeleteModalOpen = true; // show popup after deleting popup
 	}
-
-
-	// importing the onMount function to load todos of user
-	import { onMount } from 'svelte';
-
-	// explained above
-	onMount(() => {
-		// checks if 'data' i.e. todos exists, then assign 
-		if (localStorage.getItem("data") != null){
-			// JSON.parse converts our todos array (which was stored as an string) back into array
-			todos = JSON.parse(localStorage.getItem("data"))
-		}
-	})
-
 </script>
 
-<br>
-<main class="container-fluid">
+<br />
+<main>
+
+	<br />
+
+	<!-- Add atleast 10 todos! -->
+	<ProgressBar
+		value={todos.length}
+		max={10}
+		labelText="Have atleast 10 todos!"
+		kind="inline"
+	/>
+
+	<br />
 	<!-- Bind to addTodoText -->
-	<input bind:value={addTodoText} placeholder={placeholder}>
-	
-	<div class="grid">
+	<TextInput bind:value={addTodoText} {placeholder} />
 
-		<!-- on click events -->
+	<br />
+	<br />
 
+	<!-- on click events -->
+
+	<div class="btns">
 		<!-- calls addTodo function -->
-		<button on:click={ addTodo }>Add Todo</button>
-
+		<Button on:click={addTodo} icon={Add}>Add Todo</Button>
 		<!-- calls saveTodo function -->
-		<button class="contrast " on:click={saveTodo}>
-			Save Todos
-		</button>
+		<Button on:click={saveTodo} icon={RowDelete}>Save Todos</Button>
+		<!-- calls deleteAllTodo function -->
+		<Button on:click={deleteAllTodos} icon={TaskRemove}
+			>Delete all todos</Button
+		>
 	</div>
-	
-	<br>
 
-	<!-- on click event -->
-	<!-- calls deleteTodo function -->
-	<button class="container-fluid" on:click={deleteTodos}>
-		Delete stored todos
-	</button>
 
-	<br><br>
-	<!-- calls deleteAllTodo function -->
-	<button class="container-fluid secondary" on:click={deleteAllTodos}>
-		Delete all todos
-	</button>
+	<!-- The popups! -->
+	<Modal
+		passiveModal
+		preventCloseOnClickOutside
+		size="lg"
+		bind:open={isSaveModalOpen}
+		modalHeading="Todos Saved"
+	>
+		<h3>Your todos were saved.</h3>
+	</Modal>
 
-	<br>
-	<br>
+	<Modal
+		passiveModal
+		preventCloseOnClickOutside
+		size="lg"
+		bind:open={isDeleteModalOpen}
+		modalHeading="Todos Deleted"
+	>
+		<h3>Your todos were deleted completely!</h3>
+	</Modal>
+
+	<Modal
+		passiveModal
+		preventCloseOnClickOutside
+		size="lg"
+		bind:open={isSaveModalWarning}
+		modalHeading="Can't save todos!"
+	>
+		<h3>Empty todos will not be saved!</h3>
+	</Modal>
+
+	<Modal
+		passiveModal
+		preventCloseOnClickOutside
+		size="lg"
+		bind:open={isTodoTextEmpty}
+		modalHeading="Todos can't be empty!"
+	>
+		<h3>Add some todos! Empty ones aren't added.</h3>
+	</Modal>
+
+	<br />
+	<br />
 
 	<!-- loop over the todos array -->
 	{#each todos as todo, index}
-
-		<div class="grid" style="text-align: center;">
-		
-			<div role="button">
-
+		<div class="loop">
+			<Button>
 				<!-- Show todo number (position in array + 1) and todo -->
-				<b>{index+1}. {todo}</b>
-			
-			</div>
+				<b>{index + 1}. {todo}</b>
+			</Button>
 
 			<!-- Bind the on click function to call the arrow function 
 			 todos = [...todos.slice(0,index), ...todos.slice(index+1)]; here index
@@ -133,15 +165,27 @@
 			 the index of values (data in todos array) after removal of element at particular
 			 index get updated and reflects as well
 			-->
-			<button 
-				class="secondary"
-				on:click={ ()=> {todos = [...todos.slice(0,index), ...todos.slice(index+1)];} }>
+			<Button
+				icon={RowDelete}
+				on:click={() => {
+					todos = [
+						...todos.slice(0, index),
+						...todos.slice(index + 1),
+					];
+				}}
+			>
 				Remove
-			</button>
-	
+			</Button>
 		</div>
-		<hr>
-
 	{/each}
-
 </main>
+
+<style>
+	.btns {
+		text-align: center;
+	}
+	.loop{
+		text-align: center;
+		margin-bottom: 15px;
+	}
+</style>
