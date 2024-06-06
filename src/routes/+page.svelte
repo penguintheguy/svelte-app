@@ -94,9 +94,9 @@
 
 	<div class="btns">
 		<!-- calls addTodo function -->
-		<Button on:click={addTodo} icon={Add}>Add Todo</Button><br />
+		<Button on:click={addTodo} icon={Add}>Add Todo</Button><br /><br />
 		<!-- calls saveTodo function -->
-		<Button on:click={saveTodo} icon={RowDelete}>Save Todos</Button><br />
+		<Button on:click={saveTodo} icon={RowDelete}>Save Todos</Button><br /><br />
 		<!-- calls deleteAllTodo function -->
 		<Button on:click={deleteAllTodos} icon={TaskRemove}
 			>Delete all todos</Button
