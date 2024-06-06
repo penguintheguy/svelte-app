@@ -13,6 +13,7 @@
 		Modal,
 		TextInput,
 		ProgressBar,
+		ClickableTile,
 	} from "carbon-components-svelte";
 	// Icons
 	import { TaskRemove, RowDelete, Add } from "carbon-icons-svelte";
@@ -72,7 +73,6 @@
 
 <br />
 <main>
-
 	<br />
 
 	<!-- Add atleast 10 todos! -->
@@ -96,13 +96,13 @@
 		<!-- calls addTodo function -->
 		<Button on:click={addTodo} icon={Add}>Add Todo</Button><br /><br />
 		<!-- calls saveTodo function -->
-		<Button on:click={saveTodo} icon={RowDelete}>Save Todos</Button><br /><br />
+		<Button on:click={saveTodo} icon={RowDelete}>Save Todos</Button><br
+		/><br />
 		<!-- calls deleteAllTodo function -->
 		<Button on:click={deleteAllTodos} icon={TaskRemove}
 			>Delete all todos</Button
 		>
 	</div>
-
 
 	<!-- The popups! -->
 	<Modal
@@ -151,13 +151,15 @@
 	<!-- loop over the todos array -->
 	{#each todos as todo, index}
 		<div class="loop">
-			<h3>
-				<!-- Show todo number (position in array + 1) and todo -->
-				<b>{index + 1}. {todo}</b>
-			</h3><br />
+			<ClickableTile>
+				<h3>
+					<!-- Show todo number (position in array + 1) and todo -->
+					<b>{index + 1}. {todo}</b>
+				</h3>
+				<br />
 
-			<!-- Bind the on click function to call the arrow function 
-			 todos = [...todos.slice(0,index), ...todos.slice(index+1)]; here index
+				<!-- Bind the on click function to call the arrow function 
+				todos = [...todos.slice(0,index), ...todos.slice(index+1)]; here index
 			 is the index of todo in array todos.
 			 slice the array, include elements from index = 0 to index-1
 			 and from index+1 till last
@@ -165,17 +167,18 @@
 			 the index of values (data in todos array) after removal of element at particular
 			 index get updated and reflects as well
 			-->
-			<Button
-				icon={RowDelete}
-				on:click={() => {
-					todos = [
-						...todos.slice(0, index),
-						...todos.slice(index + 1),
-					];
-				}}
-			>
-				Remove
-			</Button>
+				<Button
+					icon={RowDelete}
+					on:click={() => {
+						todos = [
+							...todos.slice(0, index),
+							...todos.slice(index + 1),
+						];
+					}}
+				>
+					Remove
+				</Button>
+			</ClickableTile>
 		</div>
 	{/each}
 </main>
@@ -184,10 +187,13 @@
 	.btns {
 		text-align: center;
 	}
-	.loop{
-                max-width: 97dvw;
-                overflow-y: auto;
+	.loop {
+		max-width: 95dvw;
 		text-align: center;
+		margin: auto;
 		margin-bottom: 15px;
+	}
+	.loop h3 {
+		overflow-y: auto;
 	}
 </style>
