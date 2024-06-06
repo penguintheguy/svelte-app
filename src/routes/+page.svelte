@@ -185,6 +185,8 @@
 		text-align: center;
 	}
 	.loop{
+                max-width: 97dvw;
+                overflow-y: auto;
 		text-align: center;
 		margin-bottom: 15px;
 	}
