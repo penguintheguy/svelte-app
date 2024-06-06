@@ -94,7 +94,7 @@
 
 	<div class="btns">
 		<!-- calls addTodo function -->
-		<Button on:click={addTodo} icon={Add}>Add Todo</Button>
+		<Button on:click={addTodo} icon={Add}>Add Todo</Button><br />
 		<!-- calls saveTodo function -->
 		<Button on:click={saveTodo} icon={RowDelete}>Save Todos</Button><br />
 		<!-- calls deleteAllTodo function -->
@@ -151,10 +151,10 @@
 	<!-- loop over the todos array -->
 	{#each todos as todo, index}
 		<div class="loop">
-			<Button>
+			<h3>
 				<!-- Show todo number (position in array + 1) and todo -->
 				<b>{index + 1}. {todo}</b>
-			</Button><br />
+			</h3><br />
 
 			<!-- Bind the on click function to call the arrow function 
 			 todos = [...todos.slice(0,index), ...todos.slice(index+1)]; here index
