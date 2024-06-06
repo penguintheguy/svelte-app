@@ -96,7 +96,7 @@
 		<!-- calls addTodo function -->
 		<Button on:click={addTodo} icon={Add}>Add Todo</Button>
 		<!-- calls saveTodo function -->
-		<Button on:click={saveTodo} icon={RowDelete}>Save Todos</Button>
+		<Button on:click={saveTodo} icon={RowDelete}>Save Todos</Button><br />
 		<!-- calls deleteAllTodo function -->
 		<Button on:click={deleteAllTodos} icon={TaskRemove}
 			>Delete all todos</Button
@@ -154,7 +154,7 @@
 			<Button>
 				<!-- Show todo number (position in array + 1) and todo -->
 				<b>{index + 1}. {todo}</b>
-			</Button>
+			</Button><br />
 
 			<!-- Bind the on click function to call the arrow function 
 			 todos = [...todos.slice(0,index), ...todos.slice(index+1)]; here index
