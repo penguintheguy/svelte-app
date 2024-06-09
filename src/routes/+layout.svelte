@@ -1,23 +1,10 @@
 <script>
 
     // Importing Carbon design css
-    import "carbon-components-svelte/css/all.css";
-    import {Theme} from 'carbon-components-svelte'
+    import "carbon-components-svelte/css/g80.css";
 
 </script>
 
-
-	<!-- Theme changer -->
-	<Theme
-		render="select"
-		persist
-		persistKey="carbon-theme"
-		select={{
-			themes: ["g10", "g80"],
-			labelText: "Select a carbon theme",
-			inline: true,
-		}}
-	/>
 <main>
     <slot />
 </main>
@@ -25,7 +12,7 @@
 
 <style>
     main {
-        max-width: 99dvw;
+        max-width: 97.5dvw;
         margin: auto;
     }
 </style>
